@@ -1,0 +1,34 @@
+#!/bin/bash
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 [filename or dir name]"
+    echo " e.g.: $0 webapps"
+    echo " e.g.: $0 index.html"
+    exit
+elif [ ! -e $1 ]; then
+	echo "$1 is not found."
+    echo "Usage: $0 [filename or dir name]"
+    echo " e.g.: $0 webapps"
+    echo " e.g.: $0 index.html"
+    exit
+fi
+bakHome='/backup'
+
+currTime=`date '+%Y%m%d'`
+targetPath=$bakHome/$currTime
+bakTail=`date '+%H%M%S'`
+originPath=$1
+mkdir -p $targetPath
+if [ -d $1 ]; then
+	tar -czvf $1.tgz.$bakTail $1
+	targetFile=$1.tgz.$bakTail
+	mv $targetFile $targetPath
+	echo 'Backup '$1' to '$targetPath'/'${originPath:t}'.tgz.'$bakTail
+else
+	targetFile=$1.$bakTail
+	cp $1 $targetFile
+	mv $targetFile $targetPath
+	echo 'Backup '$1' to '$targetPath'/'${originPath:t}'.'$bakTail
+fi
+ 
+
+
