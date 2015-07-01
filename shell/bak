@@ -32,6 +32,3 @@ else
 	mv $targetFile $targetPath
 	echo 'Backup '$1' to '$targetPath'/'${originPath##*/}'.'$bakTail
 fi
- 
-
-
