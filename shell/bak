@@ -19,15 +19,18 @@ bakTail=`date '+%H%M%S'`
 originPath=$1
 mkdir -p $targetPath
 if [ -d $1 ]; then
-	tar -czvf $1.tgz.$bakTail $1
-	targetFile=$1.tgz.$bakTail
-	mv $targetFile $targetPath
-	echo 'Backup '$1' to '$targetPath'/'${originPath:t}'.tgz.'$bakTail
+	tar -czvf ${originPath##*/}.tgz.$bakTail $1
+	targetFile=${originPath##*}.tgz.$bakTail
+	standardPath=${originPath%/}
+
+	mv ${standardPath##*/}.tgz.$bakTail $targetPath
+
+	echo 'Backup '$1' to '$targetPath'/'${standardPath##*/}'.tgz.'$bakTail
 else
 	targetFile=$1.$bakTail
 	cp $1 $targetFile
 	mv $targetFile $targetPath
-	echo 'Backup '$1' to '$targetPath'/'${originPath:t}'.'$bakTail
+	echo 'Backup '$1' to '$targetPath'/'${originPath##*/}'.'$bakTail
 fi
  
 
